@@ -25,7 +25,6 @@ public class MalkuthBossSpawnerTeleporter implements ITeleporter {
         };
 
         for (BlockPos corner : corners) {
-            //有个点也是在40，所以用黑石区分
             if (destinationLevel.getBlockState(corner).is(Blocks.BLACKSTONE)) {
                 BlockPos teleportPos = new BlockPos(corner.getX(), 66, corner.getZ());
                 return new PortalInfo(teleportPos.getCenter(), Vec3.ZERO, entity.getYRot(), entity.getXRot());

@@ -26,7 +26,7 @@ public class QADNoiseSettings {
                 new NoiseRouter(DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero()),
                 SurfaceRules.state(Blocks.BEDROCK.defaultBlockState()),
                 List.of(),
-                0,
+                256,
                 true,
                 false,
                 false,

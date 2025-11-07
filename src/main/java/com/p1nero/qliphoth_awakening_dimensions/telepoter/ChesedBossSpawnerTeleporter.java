@@ -29,7 +29,7 @@ public class ChesedBossSpawnerTeleporter implements ITeleporter {
         };
 
         for (BlockPos corner : corners) {
-            if (!destinationLevel.getBlockState(corner).is(Blocks.AIR)) {
+            if (!destinationLevel.getBlockState(corner).is(Blocks.BEDROCK)) {
                 BlockPos teleportPos = new BlockPos(corner.getX(), 64, corner.getZ());
                 return new PortalInfo(teleportPos.getCenter(), Vec3.ZERO, entity.getYRot(), entity.getXRot());
             }

@@ -10,7 +10,7 @@ public class QADConfig {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
     private static final ForgeConfigSpec.BooleanValue ENABLE_TELEPORT_EYE = BUILDER.define("enable_teleport_eye", true);
-    private static final ForgeConfigSpec.IntValue TELEPORT_EYE_COOLDOWN = BUILDER.defineInRange("enable_teleport_eye", 600, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue TELEPORT_EYE_COOLDOWN = BUILDER.defineInRange("teleport_eye_cooldown", 600, 0, Integer.MAX_VALUE);
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
