@@ -3,16 +3,13 @@ package com.p1nero.qliphoth_awakening_dimensions.command;
 import com.finderfeed.fdlib.FDLib;
 import com.mojang.brigadier.CommandDispatcher;
 import com.p1nero.qliphoth_awakening_dimensions.QADimensionsMod;
-import com.p1nero.qliphoth_awakening_dimensions.telepoter.ChesedBossSpawnerTeleporter;
-import com.p1nero.qliphoth_awakening_dimensions.telepoter.MalkuthBossSpawnerTeleporter;
-import com.p1nero.qliphoth_awakening_dimensions.worldgen.QADDimensions;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
-@Mod.EventBusSubscriber(modid = QADimensionsMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = QADimensionsMod.MOD_ID)
 public class QADCommands {
 
     @SubscribeEvent
@@ -23,7 +20,7 @@ public class QADCommands {
                         .requires((commandSourceStack) -> commandSourceStack.hasPermission(2))
                         .executes(commandContext -> {
                             if(commandContext.getSource().getPlayer() != null) {
-                                commandContext.getSource().getPlayer().changeDimension(commandContext.getSource().getServer().getLevel(QADDimensions.CHESED_LEVEL_KEY), new ChesedBossSpawnerTeleporter());
+                                QADimensionsMod.teleportToChesedDimension(commandContext.getSource().getPlayer());
                             }
                             return 0;
                         }))
@@ -31,7 +28,7 @@ public class QADCommands {
                         .requires((commandSourceStack) -> commandSourceStack.hasPermission(2))
                         .executes(commandContext -> {
                             if(commandContext.getSource().getPlayer() != null) {
-                                commandContext.getSource().getPlayer().changeDimension(commandContext.getSource().getServer().getLevel(QADDimensions.MALKUTH_LEVEL_KEY), new MalkuthBossSpawnerTeleporter());
+                                QADimensionsMod.teleportToMalkuthDimension(commandContext.getSource().getPlayer());
                             }
                             return 0;
                         }))

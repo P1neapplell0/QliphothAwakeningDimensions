@@ -2,7 +2,7 @@ package com.p1nero.qliphoth_awakening_dimensions.worldgen;
 
 import com.p1nero.qliphoth_awakening_dimensions.QADimensionsMod;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
@@ -18,7 +18,7 @@ public class QADNoiseSettings {
         return ResourceKey.create(Registries.NOISE_SETTINGS, ResourceLocation.fromNamespaceAndPath(QADimensionsMod.MOD_ID, name));
     }
 
-    public static void bootstrap(BootstapContext<NoiseGeneratorSettings> context) {
+    public static void bootstrap(BootstrapContext<NoiseGeneratorSettings> context) {
         context.register(BEDROCK, new NoiseGeneratorSettings(
                 new NoiseSettings(0, 128, 1, 1),
                 Blocks.BEDROCK.defaultBlockState(),

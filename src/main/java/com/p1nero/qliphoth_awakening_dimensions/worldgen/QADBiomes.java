@@ -3,7 +3,7 @@ package com.p1nero.qliphoth_awakening_dimensions.worldgen;
 import com.p1nero.qliphoth_awakening_dimensions.QADimensionsMod;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.Musics;
@@ -19,7 +19,7 @@ public class QADBiomes {
         return ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(QADimensionsMod.MOD_ID, name));
     }
 
-    public static void boostrap(BootstapContext<Biome> context) {
+    public static void boostrap(BootstrapContext<Biome> context) {
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
         BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
         context.register(EMPTY_1, new Biome.BiomeBuilder()

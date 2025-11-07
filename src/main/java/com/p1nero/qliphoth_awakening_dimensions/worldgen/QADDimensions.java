@@ -3,7 +3,7 @@ package com.p1nero.qliphoth_awakening_dimensions.worldgen;
 import com.p1nero.qliphoth_awakening_dimensions.QADimensionsMod;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -38,7 +38,7 @@ public class QADDimensions {
 
     public static final Set<ResourceKey<Level>> LEVELS = Set.of(CHESED_LEVEL_KEY, MALKUTH_LEVEL_KEY);
 
-    public static void bootstrapType(BootstapContext<DimensionType> context) {
+    public static void bootstrapType(BootstrapContext<DimensionType> context) {
         context.register(CHESED_TYPE,
                 new DimensionType(
                     OptionalLong.empty(),       // 跟随主世界时间
@@ -79,7 +79,7 @@ public class QADDimensions {
         );
     }
 
-    public static void bootstrapStem(BootstapContext<LevelStem> context) {
+    public static void bootstrapStem(BootstrapContext<LevelStem> context) {
         HolderGetter<Biome> biomeRegistry = context.lookup(Registries.BIOME);
         HolderGetter<DimensionType> dimTypes = context.lookup(Registries.DIMENSION_TYPE);
         HolderGetter<NoiseGeneratorSettings> noiseGenSettings = context.lookup(Registries.NOISE_SETTINGS);

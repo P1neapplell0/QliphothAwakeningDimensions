@@ -3,11 +3,10 @@ package com.p1nero.qliphoth_awakening_dimensions;
 import com.finderfeed.fdbosses.init.BossItems;
 import com.mojang.logging.LogUtils;
 import com.p1nero.qliphoth_awakening_dimensions.placement.QADPlacementTypes;
-import com.p1nero.qliphoth_awakening_dimensions.telepoter.ChesedBossSpawnerTeleporter;
-import com.p1nero.qliphoth_awakening_dimensions.telepoter.MalkuthBossSpawnerTeleporter;
 import com.p1nero.qliphoth_awakening_dimensions.worldgen.QADDimensions;
 import com.p1nero.qliphoth_awakening_dimensions.worldgen.QADWorldGenProvider;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
@@ -22,14 +21,17 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import org.slf4j.Logger;
 
 import java.util.List;
@@ -41,13 +43,12 @@ public class QADimensionsMod {
     public static final String MOD_ID = "qliphoth_awakening_dimensions";
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public QADimensionsMod(FMLJavaModLoadingContext context) {
-        IEventBus bus = context.getModEventBus();
+    public QADimensionsMod(ModContainer modContainer, IEventBus bus) {
         bus.addListener(this::qad$dataSetup);
-        MinecraftForge.EVENT_BUS.addListener(this::qad$onItemUse);
-        MinecraftForge.EVENT_BUS.addListener(this::qad$onToolTip);
+        NeoForge.EVENT_BUS.addListener(this::qad$onItemUse);
+        NeoForge.EVENT_BUS.addListener(this::qad$onToolTip);
         QADPlacementTypes.STRUCTURE_PLACEMENT_TYPES.register(bus);
-        context.registerConfig(ModConfig.Type.COMMON, QADConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, QADConfig.SPEC);
     }
 
     private void qad$dataSetup(GatherDataEvent event) {
@@ -84,16 +85,10 @@ public class QADimensionsMod {
                 return;
             }
 
-            if(itemStack.is(BossItems.EYE_OF_CHESED.get())) {
-                ServerLevel level = minecraftServer.getLevel(QADDimensions.CHESED_LEVEL_KEY);
-                if(level != null) {
-                    entity.changeDimension(level, new ChesedBossSpawnerTeleporter());
-                }
-            } else if(itemStack.is(BossItems.EYE_OF_MALKUTH.get())) {
-                ServerLevel level = minecraftServer.getLevel(QADDimensions.MALKUTH_LEVEL_KEY);
-                if(level != null) {
-                    entity.changeDimension(level, new MalkuthBossSpawnerTeleporter());
-                }
+            if (itemStack.is(BossItems.EYE_OF_CHESED.get())) {
+                teleportToChesedDimension(entity);
+            } else if (itemStack.is(BossItems.EYE_OF_MALKUTH.get())) {
+                teleportToMalkuthDimension(entity);
             } else {
                 return;
             }
@@ -101,6 +96,56 @@ public class QADimensionsMod {
                 player.getCooldowns().addCooldown(itemStack.getItem(), QADConfig.teleportEyeCooldown);
                 player.connection.send(new ClientboundSoundPacket(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.PORTAL_TRAVEL), SoundSource.PLAYERS, player.getX(), player.getY(), player.getZ(), 1.0F, 1.0F, player.getRandom().nextInt()));
             }
+        }
+    }
+
+    public static void teleportToChesedDimension(LivingEntity entity) {
+        MinecraftServer minecraftServer = entity.getServer();
+        if(minecraftServer == null) {
+            return;
+        }
+        ServerLevel level = minecraftServer.getLevel(QADDimensions.CHESED_LEVEL_KEY);
+        if (level != null) {
+            Vec3 targetPosition = Vec3.ZERO;
+            BlockPos[] corners = {
+                    new BlockPos(48, 62, -48),
+                    new BlockPos(-48, 62, -48),
+                    new BlockPos(48, 62, 48),
+                    new BlockPos(-48, 62, 48)
+            };
+
+            for (BlockPos corner : corners) {
+                if (!level.getBlockState(corner).is(Blocks.BEDROCK)) {
+                    targetPosition = corner.atY(64).getCenter();
+                    break;
+                }
+            }
+            entity.changeDimension(new DimensionTransition(level, targetPosition, Vec3.ZERO, entity.getYRot(), entity.getXRot(), DimensionTransition.PLAY_PORTAL_SOUND));
+        }
+    }
+
+    public static void teleportToMalkuthDimension(LivingEntity entity) {
+        MinecraftServer minecraftServer = entity.getServer();
+        if(minecraftServer == null) {
+            return;
+        }
+        ServerLevel level = minecraftServer.getLevel(QADDimensions.MALKUTH_LEVEL_KEY);
+        if (level != null) {
+            Vec3 targetPosition = Vec3.ZERO;
+            BlockPos[] corners = {
+                    new BlockPos(40, 63, -40),
+                    new BlockPos(-40, 63, -40),
+                    new BlockPos(40, 63, 40),
+                    new BlockPos(-40, 63, 40)
+            };
+
+            for (BlockPos corner : corners) {
+                if (level.getBlockState(corner).is(Blocks.BLACKSTONE)) {
+                    targetPosition = corner.atY(66).getCenter();
+                    break;
+                }
+            }
+            entity.changeDimension(new DimensionTransition(level, targetPosition, Vec3.ZERO, entity.getYRot(), entity.getXRot(), DimensionTransition.PLAY_PORTAL_SOUND));
         }
     }
 
