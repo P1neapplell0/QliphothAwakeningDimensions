@@ -13,12 +13,13 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id("me.modmuss50.mod-publish-plugin") version "1.1.0"
 }
 
 apply plugin: 'org.spongepowered.mixin'
 
 group = mod_group_id
-version = mod_version
+version = getFullModVersion()
 
 base {
     archivesName = mod_id + "-forge1.20.1"
@@ -188,4 +189,37 @@ tasks.named('jar', Jar).configure {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+def getFullModVersion() {
+    return "${mod_version}-mc${minecraft_version}-forge"
+}
+
+publishMods {
+    def releaseNotesFile = project.file("RELEASE_NOTES.md")
+    def releaseNotesContent = releaseNotesFile.text
+
+    changelog = """
+|**Tested against:**
+|- **NeoForge:** ${forge_version}
+|- **Minecraft:** ${minecraft_version}
+|- **Qliphoth Awakening:** ${qliphoth_awaking_version}
+|
+|${releaseNotesContent}
+""".stripMargin().trim()
+
+    modLoaders.add("forge")
+    type = STABLE
+    displayName = getFullModVersion()
+    file = tasks.jar.archiveFile
+
+    curseforge {
+        accessToken = System.getenv("CURSEFORGE_TOKEN")
+        projectId = "1380154"
+        minecraftVersions.add(minecraft_version)
+        projectSlug = "qliphoth-awakening-dimensions"
+
+        requires("qliphoth-awakening")
+    }
+
 }
