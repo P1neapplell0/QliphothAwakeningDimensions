@@ -3,6 +3,7 @@ plugins {
     id 'maven-publish'
     id 'idea'
     id 'net.neoforged.moddev' version '2.0.95'
+    id("me.modmuss50.mod-publish-plugin") version "1.1.0"
 }
 
 version = mod_version
@@ -14,6 +15,7 @@ repositories {
 
 base {
     archivesName = mod_id + "-neoforge1.21.1"
+    version = getFullModVersion()
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -122,4 +124,38 @@ idea {
         downloadSources = true
         downloadJavadoc = true
     }
+}
+
+
+def getFullModVersion() {
+    return "${mod_version}-mc${minecraft_version}-neoforge"
+}
+
+publishMods {
+    def releaseNotesFile = project.file("RELEASE_NOTES.md")
+    def releaseNotesContent = releaseNotesFile.text
+
+    changelog = """
+|**Tested against:**
+|- **NeoForge:** ${neo_version}
+|- **Minecraft:** ${minecraft_version}
+|- **Qliphoth Awakening:** ${qliphoth_awaking_version}
+|
+|${releaseNotesContent}
+""".stripMargin().trim()
+
+    modLoaders.add("neoforge")
+    type = STABLE
+    displayName = getFullModVersion()
+    file = tasks.jar.archiveFile
+
+    curseforge {
+        accessToken = System.getenv("CURSEFORGE_TOKEN")
+        projectId = "1380154"
+        minecraftVersions.add(minecraft_version)
+        projectSlug = "qliphoth-awakening-dimensions"
+
+        requires("qliphoth-awakening")
+    }
+
 }
