@@ -6,7 +6,7 @@
       "element": {
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element",
-        "location": "fdbosses:malkuth_arena/malkuth_arena_part_3",
+        "location": "fdbosses:malkuth_arena/malkuth_arena_part_1",
         "processors": "minecraft:empty"
       }
     }
