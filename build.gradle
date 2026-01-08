@@ -69,8 +69,8 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 
 dependencies {
-    implementation "curse.maven:qliphoth-awakening-1271707:7128949"
-    implementation "curse.maven:fdlib-1271749:7061918"
+    implementation "curse.maven:qliphoth-awakening-1271707:7429887"
+    implementation "curse.maven:fdlib-1271749:7429840"
 }
 
 repositories {

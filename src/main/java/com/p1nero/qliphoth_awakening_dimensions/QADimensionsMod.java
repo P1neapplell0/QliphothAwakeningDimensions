@@ -133,14 +133,14 @@ public class QADimensionsMod {
         if (level != null) {
             Vec3 targetPosition = Vec3.ZERO;
             BlockPos[] corners = {
-                    new BlockPos(40, 63, -40),
-                    new BlockPos(-40, 63, -40),
-                    new BlockPos(40, 63, 40),
-                    new BlockPos(-40, 63, 40)
+                    new BlockPos(10, 64, 0),
+                    new BlockPos(-10, 64, 0),
+                    new BlockPos(0, 64, 10),
+                    new BlockPos(0, 64, -10)
             };
 
             for (BlockPos corner : corners) {
-                if (level.getBlockState(corner).is(Blocks.BLACKSTONE)) {
+                if (level.getBlockState(corner).is(Blocks.BLACKSTONE) && !level.getBlockState(corner.above()).is(Blocks.POLISHED_BLACKSTONE_SLAB)) {
                     targetPosition = corner.atY(66).getCenter();
                     break;
                 }
