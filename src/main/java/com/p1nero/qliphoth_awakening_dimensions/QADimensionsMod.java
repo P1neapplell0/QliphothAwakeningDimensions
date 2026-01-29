@@ -4,6 +4,7 @@ import com.finderfeed.fdbosses.init.BossItems;
 import com.mojang.logging.LogUtils;
 import com.p1nero.qliphoth_awakening_dimensions.placement.QADPlacementTypes;
 import com.p1nero.qliphoth_awakening_dimensions.telepoter.ChesedBossSpawnerTeleporter;
+import com.p1nero.qliphoth_awakening_dimensions.telepoter.GeburahBossSpawnerTeleporter;
 import com.p1nero.qliphoth_awakening_dimensions.telepoter.MalkuthBossSpawnerTeleporter;
 import com.p1nero.qliphoth_awakening_dimensions.worldgen.QADDimensions;
 import com.p1nero.qliphoth_awakening_dimensions.worldgen.QADWorldGenProvider;
@@ -61,7 +62,7 @@ public class QADimensionsMod {
         if (!QADConfig.enableTeleportEye) {
             return;
         }
-        if (List.of(BossItems.EYE_OF_CHESED.get(), BossItems.EYE_OF_MALKUTH.get()).contains(event.getItemStack().getItem())) {
+        if (List.of(BossItems.EYE_OF_CHESED.get(), BossItems.EYE_OF_MALKUTH.get(), BossItems.EYE_OF_GEBURAH.get()).contains(event.getItemStack().getItem())) {
             event.getToolTip().add(Component.translatable("tip.qliphoth_awakening_dimensions.enter").withStyle(ChatFormatting.GRAY));
         }
     }
@@ -93,6 +94,11 @@ public class QADimensionsMod {
                 ServerLevel level = minecraftServer.getLevel(QADDimensions.MALKUTH_LEVEL_KEY);
                 if(level != null) {
                     entity.changeDimension(level, new MalkuthBossSpawnerTeleporter());
+                }
+            } else if(itemStack.is(BossItems.EYE_OF_GEBURAH.get())) {
+                ServerLevel level = minecraftServer.getLevel(QADDimensions.GEBURAH_LEVEL_KEY);
+                if(level != null) {
+                    entity.changeDimension(level, new GeburahBossSpawnerTeleporter());
                 }
             } else {
                 return;

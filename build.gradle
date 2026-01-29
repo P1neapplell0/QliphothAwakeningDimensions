@@ -144,8 +144,8 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    implementation fg.deobf("curse.maven:qliphoth-awakening-1271707:7128982")
-    implementation fg.deobf("curse.maven:fdlib-1271749:7061856")
+    implementation fg.deobf("curse.maven:qliphoth-awakening-1271707:7534137")
+    implementation fg.deobf("curse.maven:fdlib-1271749:7478123")
     implementation fg.deobf("curse.maven:xaeros-world-map-317780:6212636")//大地图
     implementation fg.deobf("curse.maven:xaeros-minimap-263420:6306152")//小地图
 

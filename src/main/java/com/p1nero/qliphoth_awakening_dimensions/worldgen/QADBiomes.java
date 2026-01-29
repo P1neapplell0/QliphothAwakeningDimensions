@@ -1,19 +1,24 @@
 package com.p1nero.qliphoth_awakening_dimensions.worldgen;
 
 import com.p1nero.qliphoth_awakening_dimensions.QADimensionsMod;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.biome.EndBiomes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.Musics;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.biome.*;
+import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class QADBiomes {
 
-    public static final ResourceKey<Biome> EMPTY_1 = register("empty1");
-    public static final ResourceKey<Biome> EMPTY_2 = register("empty2");
+    public static final ResourceKey<Biome> CHESED_BIOME = register("chesed_biome");
+    public static final ResourceKey<Biome> MALKUTH_BIOME = register("malkuth_biome");
+    public static final ResourceKey<Biome> GEBURAH_BIOME = register("geburah_biome");
 
     public static ResourceKey<Biome> register(String name){
         return ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(QADimensionsMod.MOD_ID, name));
@@ -22,7 +27,10 @@ public class QADBiomes {
     public static void boostrap(BootstapContext<Biome> context) {
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
         BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
-        context.register(EMPTY_1, new Biome.BiomeBuilder()
+
+        HolderGetter<PlacedFeature> placedFeatureHolderGetter = context.lookup(Registries.PLACED_FEATURE);
+        HolderGetter<ConfiguredWorldCarver<?>> configuredWorldCarverHolderGetter = context.lookup(Registries.CONFIGURED_CARVER);
+        context.register(CHESED_BIOME, new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
                 .downfall(0.0f)
                 .temperature(2.0f)
@@ -39,7 +47,7 @@ public class QADBiomes {
                         .backgroundMusic(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_CRIMSON_FOREST))
                         .build())
                 .build());
-        context.register(EMPTY_2, new Biome.BiomeBuilder()
+        context.register(MALKUTH_BIOME, new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
                 .downfall(0.0f)
                 .temperature(2.0f)
@@ -57,6 +65,7 @@ public class QADBiomes {
                         .backgroundMusic(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_CRIMSON_FOREST))
                         .build())
                 .build());
+        context.register(GEBURAH_BIOME, EndBiomes.endBarrens(placedFeatureHolderGetter, configuredWorldCarverHolderGetter));
     }
 
 }

@@ -1,0 +1,11 @@
+{
+  "placement": {
+    "type": "qliphoth_awakening_dimensions:0_0_placement"
+  },
+  "structures": [
+    {
+      "structure": "fdbosses:geburah_arena",
+      "weight": 1
+    }
+  ]
+}
