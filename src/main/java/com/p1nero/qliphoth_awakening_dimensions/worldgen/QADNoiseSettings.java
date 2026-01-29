@@ -13,6 +13,7 @@ import java.util.List;
 public class QADNoiseSettings {
     public static final ResourceKey<NoiseGeneratorSettings> BEDROCK = createNoiseGeneratorKey("bedrock");
     public static final ResourceKey<NoiseGeneratorSettings> SEA = createNoiseGeneratorKey("sea");
+    public static final ResourceKey<NoiseGeneratorSettings> AIR = createNoiseGeneratorKey("air");
 
     private static ResourceKey<NoiseGeneratorSettings> createNoiseGeneratorKey(String name) {
         return ResourceKey.create(Registries.NOISE_SETTINGS, ResourceLocation.fromNamespaceAndPath(QADimensionsMod.MOD_ID, name));
@@ -35,6 +36,18 @@ public class QADNoiseSettings {
                 new NoiseSettings(0, 128, 1, 1),
                 Blocks.WATER.defaultBlockState(),
                 Blocks.WATER.defaultBlockState(),
+                new NoiseRouter(DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero()),
+                SurfaceRules.state(Blocks.AIR.defaultBlockState()),
+                List.of(),
+                63,
+                true,
+                false,
+                false,
+                true));
+        context.register(AIR, new NoiseGeneratorSettings(
+                new NoiseSettings(0, 128, 1, 1),
+                Blocks.AIR.defaultBlockState(),
+                Blocks.AIR.defaultBlockState(),
                 new NoiseRouter(DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero()),
                 SurfaceRules.state(Blocks.AIR.defaultBlockState()),
                 List.of(),

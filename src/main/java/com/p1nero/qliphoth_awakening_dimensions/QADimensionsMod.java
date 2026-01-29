@@ -62,7 +62,7 @@ public class QADimensionsMod {
         if (!QADConfig.enableTeleportEye) {
             return;
         }
-        if (List.of(BossItems.EYE_OF_CHESED.get(), BossItems.EYE_OF_MALKUTH.get()).contains(event.getItemStack().getItem())) {
+        if (List.of(BossItems.EYE_OF_CHESED.get(), BossItems.EYE_OF_MALKUTH.get(), BossItems.EYE_OF_GEBURAH.get()).contains(event.getItemStack().getItem())) {
             event.getToolTip().add(Component.translatable("tip.qliphoth_awakening_dimensions.enter").withStyle(ChatFormatting.GRAY));
         }
     }
@@ -89,6 +89,8 @@ public class QADimensionsMod {
                 teleportToChesedDimension(entity);
             } else if (itemStack.is(BossItems.EYE_OF_MALKUTH.get())) {
                 teleportToMalkuthDimension(entity);
+            } else if (itemStack.is(BossItems.EYE_OF_GEBURAH.get())) {
+                teleportToGeburahDimension(entity);
             } else {
                 return;
             }
@@ -145,6 +147,18 @@ public class QADimensionsMod {
                     break;
                 }
             }
+            entity.changeDimension(new DimensionTransition(level, targetPosition, Vec3.ZERO, entity.getYRot(), entity.getXRot(), DimensionTransition.PLAY_PORTAL_SOUND));
+        }
+    }
+
+    public static void teleportToGeburahDimension(LivingEntity entity) {
+        MinecraftServer minecraftServer = entity.getServer();
+        if(minecraftServer == null) {
+            return;
+        }
+        ServerLevel level = minecraftServer.getLevel(QADDimensions.GEBURAH_LEVEL_KEY);
+        if (level != null) {
+            Vec3 targetPosition = new Vec3(0, 142, 0);
             entity.changeDimension(new DimensionTransition(level, targetPosition, Vec3.ZERO, entity.getYRot(), entity.getXRot(), DimensionTransition.PLAY_PORTAL_SOUND));
         }
     }

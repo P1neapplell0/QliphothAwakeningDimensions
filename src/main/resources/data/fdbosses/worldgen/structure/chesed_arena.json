@@ -1,6 +1,6 @@
 {
   "type": "minecraft:jigsaw",
-  "biomes": "qliphoth_awakening_dimensions:empty1",
+  "biomes": "qliphoth_awakening_dimensions:chesed_biome",
   "liquid_settings": "ignore_waterlogging",
   "size": 7,
   "start_height": {

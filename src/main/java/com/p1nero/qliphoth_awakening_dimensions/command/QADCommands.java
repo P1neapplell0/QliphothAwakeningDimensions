@@ -32,6 +32,14 @@ public class QADCommands {
                             }
                             return 0;
                         }))
+                .then(Commands.literal("geburah_dim")
+                        .requires((commandSourceStack) -> commandSourceStack.hasPermission(2))
+                        .executes(commandContext -> {
+                            if(commandContext.getSource().getPlayer() != null) {
+                                QADimensionsMod.teleportToGeburahDimension(commandContext.getSource().getPlayer());
+                            }
+                            return 0;
+                        }))
         );
     }
 }
