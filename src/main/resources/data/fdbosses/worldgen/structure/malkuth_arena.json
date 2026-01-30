@@ -7,6 +7,7 @@
     "absolute": 63
   },
   "start_pool": "fdbosses:malkuth_arena_start",
+  "start_jigsaw_name": "fdbosses:malkuth_arena_part_1",
   "step": "top_layer_modification",
   "max_distance_from_center": 128,
   "use_expansion_hack": false,
