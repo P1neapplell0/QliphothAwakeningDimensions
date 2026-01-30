@@ -133,20 +133,7 @@ public class QADimensionsMod {
         }
         ServerLevel level = minecraftServer.getLevel(QADDimensions.MALKUTH_LEVEL_KEY);
         if (level != null) {
-            Vec3 targetPosition = Vec3.ZERO;
-            BlockPos[] corners = {
-                    new BlockPos(10, 64, 0),
-                    new BlockPos(-10, 64, 0),
-                    new BlockPos(0, 64, 10),
-                    new BlockPos(0, 64, -10)
-            };
-
-            for (BlockPos corner : corners) {
-                if (level.getBlockState(corner).is(Blocks.BLACKSTONE) && !level.getBlockState(corner.above()).is(Blocks.POLISHED_BLACKSTONE_SLAB)) {
-                    targetPosition = corner.atY(66).getCenter();
-                    break;
-                }
-            }
+            Vec3 targetPosition = new Vec3(0, 66, -30);
             entity.changeDimension(new DimensionTransition(level, targetPosition, Vec3.ZERO, entity.getYRot(), entity.getXRot(), DimensionTransition.PLAY_PORTAL_SOUND));
         }
     }

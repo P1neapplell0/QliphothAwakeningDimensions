@@ -73,6 +73,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 dependencies {
     implementation "curse.maven:qliphoth-awakening-1271707:7534131"
     implementation "curse.maven:fdlib-1271749:7429840"
+    implementation "curse.maven:xaeros-world-map-317780:7416972"
 }
 
 repositories {
